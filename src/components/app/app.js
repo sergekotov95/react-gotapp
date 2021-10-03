@@ -56,11 +56,12 @@ export default class App extends Component {
                         </Col>
                     </Row>
                     <CharacterPage/>
-                    {/* <Row>
+                    <Row>
                         <Col md='6'>
                             <ItemList 
-                                onCharSelected={this.onCharSelected}
-                                getData={this.gotService.getAllHouses}/>
+                                onItemSelected={this.onItemSelected}
+                                getData={this.gotService.getAllHouses}
+                                renderItem={(item) => item.name}/>
                         </Col>
                         <Col md='6'>
                             <CharDetails charId={this.state.selectedChar}/>
@@ -69,13 +70,15 @@ export default class App extends Component {
                     <Row>
                         <Col md='6'>
                             <ItemList 
-                                onCharSelected={this.onCharSelected}
-                                getData={this.gotService.getAllBooks}/>
+                                onItemSelected={this.onItemSelected}
+                                getData={this.gotService.getAllBooks}
+                                renderItem={(item) => item.name}
+                                />
                         </Col>
                         <Col md='6'>
                             <CharDetails charId={this.state.selectedChar}/>
                         </Col>
-                    </Row> */}
+                    </Row>
                 </Container>
             </>
         )

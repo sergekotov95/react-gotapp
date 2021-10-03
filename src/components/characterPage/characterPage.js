@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import {Col, Row, Container} from 'reactstrap';
 import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import CharDetails, {Field} from '../charDetails';
 import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
+import RowBlock from '../rowBlock/rowBlock';
 
 export default class CharacterPage extends Component {
     gotService = new GotService();
 
     state = {
         selectedChar: 130,
-        error: false
+        error: false,
     }
     
-    onCharSelected = (id) => {
+    onItemSelected = (id) => {
         this.setState({
             selectedChar: id
         })
@@ -31,19 +31,25 @@ export default class CharacterPage extends Component {
             return <ErrorMessage/>
         }
 
+        const itemList = (
+            <ItemList 
+                onItemSelected={this.onItemSelected}
+                getData={this.gotService.getAllCharacters}
+                renderItem={({name, gender}) => `${name} (${gender})`}
+                    />
+        )
+
+        const charDetails = (
+            <CharDetails charId={this.state.selectedChar}>
+                <Field field='gender' label='Gender'/>
+                <Field field='born' label='Born'/>
+                <Field field='died' label='Died'/>
+                <Field field='culture' label='Culture'/>
+            </CharDetails>
+        )
+
         return (
-            <Row>
-                <Col md='6'>
-                    <ItemList 
-                        onCharSelected={this.onCharSelected}
-                        getData={this.gotService.getAllCharacters}
-                        renderItem={(item) => `${item.name} (${item.gender})`}
-                            />
-                </Col>
-                <Col md='6'>
-                    <CharDetails charId={this.state.selectedChar}/>
-                </Col>
-            </Row>
+            <RowBlock left={itemList} right={charDetails}/>
         )
     }
 }
