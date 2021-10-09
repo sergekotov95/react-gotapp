@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
 import ItemList from '../itemList';
-import CharDetails, {Field} from '../charDetails';
+import ItemDetails, {Field} from '../itemDetails';
 import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
 import RowBlock from '../rowBlock/rowBlock';
 
-export default class CharacterPage extends Component {
+export default class HousesPage extends Component {
     gotService = new GotService();
 
     state = {
-        selectedChar: 130,
+        selectedHouse: null,
         error: false,
     }
     
     onItemSelected = (id) => {
         this.setState({
-            selectedChar: id
+            selectedHouse: id
         })
     }
 
@@ -34,22 +34,24 @@ export default class CharacterPage extends Component {
         const itemList = (
             <ItemList 
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
-                renderItem={({name, gender}) => `${name} (${gender})`}
+                getData={this.gotService.getAllHouses}
+                renderItem={({name}) => name}
                     />
         )
 
-        const charDetails = (
-            <CharDetails charId={this.state.selectedChar}>
-                <Field field='gender' label='Gender'/>
-                <Field field='born' label='Born'/>
-                <Field field='died' label='Died'/>
-                <Field field='culture' label='Culture'/>
-            </CharDetails>
+        const itemDetails = (
+            <ItemDetails 
+            itemId={this.state.selectedHouse}
+            getData={this.gotService.getHouse}>
+                <Field field='region' label='Region'/>
+                <Field field='words' label='words'/>
+                <Field field='titles' label='Titles'/>
+                <Field field='ancestralWeapons' label='Ancestral Weapons'/>
+            </ItemDetails>
         )
 
         return (
-            <RowBlock left={itemList} right={charDetails}/>
+            <RowBlock left={itemList} right={itemDetails}/>
         )
     }
 }
